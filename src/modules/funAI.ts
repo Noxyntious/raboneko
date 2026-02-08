@@ -2,7 +2,7 @@ import client from '../client';
 import { Events } from 'discord.js';
 import { containsWord } from '../util';
 
-client.on(Events.MessageCreate, async (message) => {
+async function handleMessage(message) {
   if (message.author.id === message.client.user.id) return;
   if (containsWord(message, 'krane')) {
     await message.react('1233642528889245776');
@@ -16,4 +16,12 @@ client.on(Events.MessageCreate, async (message) => {
   if (containsWord(message, 'good\\s+bot')) {
     await message.reply("thank nyu~")
   }
+}
+
+client.on(Events.MessageCreate, async (message) => {
+  await handleMessage(message);
+});
+
+client.on(Events.MessageUpdate, async (oldMessage, newMessage) => {
+  await handleMessage(newMessage);
 });
